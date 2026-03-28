@@ -485,9 +485,9 @@
                     const tr = document.createElement('tr');
                     tr.className = 'border-b border-slate-100 print-border-black print:border-2 hover:bg-slate-50/80 print:hover:bg-transparent transition-colors group';
                     
-                    const typeLabel = entry.type === 'allowance' 
-			? '<span class="block text-[10px] print:text-[8px] text-military-accent print-text-black font-bold mt-0.5">بدل 25%</span>' 
-			: '<span class="block text-[10px] print:text-[8px] text-slate-400 print-text-black mt-0.5">راتب</span>';
+					const typeLabel = entry.type === 'allowance' 
+					    ? '<span class="text-[10px] print:text-[8px] text-military-accent print-text-black font-bold mr-1">(بدل 25%)</span>' 
+					    : '<span class="text-[10px] print:text-[8px] text-slate-400 print-text-black mr-1">(راتب)</span>';
 
                     tr.innerHTML = `
                         <td class="p-5 print:px-1 print:py-1 print:text-[10px] border-l border-slate-100 print-border-black print:border-2 text-center text-slate-500 print-text-black print:font-bold">${index + 1}</td>
