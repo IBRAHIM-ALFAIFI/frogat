@@ -84,10 +84,16 @@
     <div class="absolute -top-24 -left-24 w-96 h-96 bg-military-accent/5 rounded-full blur-3xl pointer-events-none print-hidden"></div>
 
     <!-- Mobile Header -->
-    <div class="lg:hidden bg-military-dark text-white p-4 flex items-center justify-between shadow-md relative z-20 print-hidden">
-        <div class="flex items-center gap-3">
-            <i data-lucide="calculator" class="w-6 h-6 text-military-accent"></i>
-            <h1 class="font-bold text-lg">مكتب المحاسبة -معهد سلاح المشاة</h1>
+    <div class="lg:hidden bg-military-dark text-white p-4 flex flex-col shadow-md relative z-20 print-hidden">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+                <i data-lucide="calculator" class="w-6 h-6 text-military-accent"></i>
+                <h1 class="font-bold text-lg">مكتب المحاسبة - سلاح المشاة</h1>
+            </div>
+        </div>
+        <div class="flex gap-2 bg-white/10 p-1 rounded-xl">
+            <button onclick="switchTab('salary')" id="mobile-tab-salary" class="flex-1 py-2 text-sm font-bold rounded-lg bg-military-accent text-military-dark transition-colors">فروقات الراتب</button>
+            <button onclick="switchTab('allowance')" id="mobile-tab-allowance" class="flex-1 py-2 text-sm font-bold rounded-lg text-white hover:bg-white/10 transition-colors">بدلات (25%)</button>
         </div>
     </div>
 
@@ -105,11 +111,15 @@
         </div>
 
         <nav class="flex-1 py-8 px-4 space-y-3">
-            <a href="#" class="flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 group relative overflow-hidden bg-white/10 text-white shadow-lg border border-white/10">
+            <button onclick="switchTab('salary')" id="tab-salary" class="w-full flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 group relative overflow-hidden bg-white/10 text-white shadow-lg border border-white/10">
                 <div class="absolute inset-0 bg-gradient-to-r from-military-light/20 to-transparent opacity-50"></div>
                 <i data-lucide="calculator" class="w-6 h-6 relative z-10 transition-transform duration-300 group-hover:scale-110 text-military-accent"></i>
-                <span class="relative z-10 font-medium text-lg">الحاسبة السريعة للفروقات</span>
-            </a>
+                <span class="relative z-10 font-medium text-lg">فروقات الراتب</span>
+            </button>
+            <button onclick="switchTab('allowance')" id="tab-allowance" class="w-full flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 group relative overflow-hidden hover:bg-white/5 text-slate-300 hover:text-white border border-transparent">
+                <i data-lucide="percent" class="w-6 h-6 relative z-10 transition-transform duration-300 group-hover:scale-110 text-slate-400 group-hover:text-military-accent"></i>
+                <span class="relative z-10 font-medium text-lg">فروقات البدلات (25%)</span>
+            </button>
         </nav>
     </aside>
 
@@ -135,7 +145,7 @@
                     </div>
                 </div>
                 <div class="text-center mt-4 mb-2">
-                    <h2 class="text-2xl font-bold inline-block border-b-2 border-gray-800 pb-1">بيان تفصيلي بفروقات الراتب </h2>
+                    <h2 id="printTitle" class="text-2xl font-bold inline-block border-b-2 border-gray-800 pb-1">بيان تفصيلي بفروقات الراتب</h2>
                 </div>
             </div>
 
@@ -145,12 +155,12 @@
                 <div class="relative z-10">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-military-light/10 text-military-dark text-sm font-semibold mb-3">
                         <i data-lucide="calculator" class="w-4 h-4"></i>
-                        <span>أداة حسابية</span>
+                        <span id="headerBadge">أداة حسابية</span>
                     </div>
-                    <h1 class="text-2xl sm:text-4xl font-bold text-slate-900 mb-2 tracking-tight">
+                    <h1 id="headerTitle" class="text-2xl sm:text-4xl font-bold text-slate-900 mb-2 tracking-tight">
                         الحاسبة السريعة للفروقات
                     </h1>
-                    <p class="text-slate-500 text-base sm:text-lg max-w-xl">
+                    <p id="headerDesc" class="text-slate-500 text-base sm:text-lg max-w-xl">
                         إضافة فترات متعددة وحساب الإجمالي بدقة عالية مع إمكانية طباعة تقرير رسمي معتمد.
                     </p>
                 </div>
@@ -174,8 +184,8 @@
                                 <i data-lucide="plus" class="w-6 h-6 text-military-dark"></i>
                             </div>
                             <div>
-                                <h3 class="text-xl font-bold text-slate-800">إضافة فترة جديدة</h3>
-                                <p class="text-sm text-slate-500">أدخل تفاصيل الفترة والراتب</p>
+                                <h3 id="formTitle" class="text-xl font-bold text-slate-800">إضافة فترة جديدة</h3>
+                                <p id="formSubtitle" class="text-sm text-slate-500">أدخل تفاصيل الفترة والراتب</p>
                             </div>
                         </div>
                         <form id="calcForm" class="space-y-6">
@@ -197,12 +207,12 @@
                                 </div>
                             </div>
 
-                            <div class="pt-6 border-t border-slate-100 space-y-5">
+                            <div id="salaryInputs" class="pt-6 border-t border-slate-100 space-y-5">
                                 <div>
                                     <label class="block text-sm font-semibold text-slate-700 mb-2">الراتب القديم</label>
                                     <div class="relative group">
                                         <i data-lucide="dollar-sign" class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-military-dark transition-colors"></i>
-                                        <input type="number" id="oldSalary" required step="0.01" class="w-full pr-12 pl-4 py-3.5 bg-slate-50 rounded-2xl border-2 border-transparent focus:bg-white focus:border-military-light/30 focus:ring-4 focus:ring-military-light/10 outline-none transition-all font-medium text-slate-700" placeholder="0.00" dir="ltr">
+                                        <input type="number" id="oldSalary" step="0.01" class="w-full pr-12 pl-4 py-3.5 bg-slate-50 rounded-2xl border-2 border-transparent focus:bg-white focus:border-military-light/30 focus:ring-4 focus:ring-military-light/10 outline-none transition-all font-medium text-slate-700" placeholder="0.00" dir="ltr">
                                     </div>
                                 </div>
 
@@ -210,9 +220,16 @@
                                     <label class="block text-sm font-semibold text-slate-700 mb-2">الراتب الجديد (المستحق)</label>
                                     <div class="relative group">
                                         <i data-lucide="dollar-sign" class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-military-dark transition-colors"></i>
-                                        <input type="number" id="newSalary" required step="0.01" class="w-full pr-12 pl-4 py-3.5 bg-slate-50 rounded-2xl border-2 border-transparent focus:bg-white focus:border-military-light/30 focus:ring-4 focus:ring-military-light/10 outline-none transition-all font-medium text-slate-700" placeholder="0.00" dir="ltr">
+                                        <input type="number" id="newSalary" step="0.01" class="w-full pr-12 pl-4 py-3.5 bg-slate-50 rounded-2xl border-2 border-transparent focus:bg-white focus:border-military-light/30 focus:ring-4 focus:ring-military-light/10 outline-none transition-all font-medium text-slate-700" placeholder="0.00" dir="ltr">
                                     </div>
                                 </div>
+                            </div>
+
+                            <div id="allowanceInfo" class="hidden pt-4 border-t border-slate-100">
+                                <p class="text-sm text-slate-500 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                    <i data-lucide="info" class="w-4 h-4 inline-block ml-1 text-military-light"></i>
+                                    سيتم استخراج الراتب القديم والجديد تلقائياً من فترات الراتب المدخلة مسبقاً لحساب فرق البدلات (25%).
+                                </p>
                             </div>
 
                             <div id="errorMsg" class="hidden p-4 bg-red-50 text-red-700 rounded-2xl text-sm font-medium border border-red-100 flex items-start gap-3">
@@ -255,8 +272,8 @@
                                         <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">من تاريخ</th>
                                         <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">إلى تاريخ</th>
                                         <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">المدة (س/ش/ي)</th>
-                                        <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">الراتب القديم</th>
-                                        <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">الراتب الجديد</th>
+                                        <th id="colOldSalary" class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">المبلغ القديم</th>
+                                        <th id="colNewSalary" class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">المبلغ الجديد</th>
                                         <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">الفرق الشهري</th>
                                         <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">الإجمالي</th>
                                         <th class="p-5 print:p-1 print:text-[11px] font-bold print-hidden w-16 text-center rounded-tl-2xl">إجراء</th>
@@ -307,6 +324,7 @@
         // Set print date
         document.getElementById('printDate').textContent = new Date().toLocaleDateString('en-GB');
 
+        let currentMode = 'salary'; // 'salary' or 'allowance'
         let entries = [];
 
         const parseDate = (dateStr) => {
@@ -319,6 +337,111 @@
                 }
             }
             return null;
+        };
+
+        const dateToDays = (d) => {
+            return d.year * 360 + d.month * 30 + d.day;
+        };
+
+        const findSalaryForPeriod = (startStr, endStr) => {
+            const d1 = parseDate(startStr);
+            const d2 = parseDate(endStr);
+            if (!d1 || !d2) return null;
+
+            const startDays = dateToDays(d1);
+            const endDays = dateToDays(d2);
+
+            // Find an entry in entries that fully contains this period
+            for (const entry of entries) {
+                if (entry.type !== 'salary') continue;
+                const eStart = parseDate(entry.startDate);
+                const eEnd = parseDate(entry.endDate);
+                if (!eStart || !eEnd) continue;
+
+                const eStartDays = dateToDays(eStart);
+                const eEndDays = dateToDays(eEnd);
+
+                if (startDays >= eStartDays && endDays <= eEndDays) {
+                    return {
+                        oldSalary: entry.oldSalary,
+                        newSalary: entry.newSalary
+                    };
+                }
+            }
+            return null;
+        };
+
+        window.switchTab = (mode) => {
+            currentMode = mode;
+            
+            // Update sidebar buttons
+            const tabSalary = document.getElementById('tab-salary');
+            const tabAllowance = document.getElementById('tab-allowance');
+            const mobileTabSalary = document.getElementById('mobile-tab-salary');
+            const mobileTabAllowance = document.getElementById('mobile-tab-allowance');
+            
+            if (mode === 'salary') {
+                tabSalary.className = "w-full flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 group relative overflow-hidden bg-white/10 text-white shadow-lg border border-white/10";
+                tabSalary.querySelector('div').classList.remove('hidden');
+                tabSalary.querySelector('svg')?.classList.replace('text-slate-400', 'text-military-accent');
+                
+                tabAllowance.className = "w-full flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 group relative overflow-hidden hover:bg-white/5 text-slate-300 hover:text-white border border-transparent";
+                tabAllowance.querySelector('div')?.classList.add('hidden');
+                tabAllowance.querySelector('svg')?.classList.replace('text-military-accent', 'text-slate-400');
+
+                if (mobileTabSalary) {
+                    mobileTabSalary.className = "flex-1 py-2 text-sm font-bold rounded-lg bg-military-accent text-military-dark transition-colors";
+                    mobileTabAllowance.className = "flex-1 py-2 text-sm font-bold rounded-lg text-white hover:bg-white/10 transition-colors";
+                }
+
+                // Update UI texts
+                document.getElementById('printTitle').textContent = 'بيان تفصيلي بفروقات الراتب';
+                document.getElementById('headerTitle').textContent = 'الحاسبة السريعة للفروقات';
+                document.getElementById('headerDesc').textContent = 'إضافة فترات متعددة وحساب الإجمالي بدقة عالية مع إمكانية طباعة تقرير رسمي معتمد.';
+                document.getElementById('headerBadge').textContent = 'أداة حسابية';
+                document.getElementById('formTitle').textContent = 'إضافة فترة راتب';
+                document.getElementById('formSubtitle').textContent = 'أدخل تفاصيل الفترة والراتب';
+                
+                // Show salary inputs
+                document.getElementById('salaryInputs').classList.remove('hidden');
+                document.getElementById('allowanceInfo').classList.add('hidden');
+                document.getElementById('oldSalary').required = true;
+                document.getElementById('newSalary').required = true;
+            } else {
+                tabAllowance.className = "w-full flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 group relative overflow-hidden bg-white/10 text-white shadow-lg border border-white/10";
+                if(!tabAllowance.querySelector('div')) {
+                    tabAllowance.insertAdjacentHTML('afterbegin', '<div class="absolute inset-0 bg-gradient-to-r from-military-light/20 to-transparent opacity-50"></div>');
+                } else {
+                    tabAllowance.querySelector('div').classList.remove('hidden');
+                }
+                tabAllowance.querySelector('svg')?.classList.replace('text-slate-400', 'text-military-accent');
+                
+                tabSalary.className = "w-full flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 group relative overflow-hidden hover:bg-white/5 text-slate-300 hover:text-white border border-transparent";
+                tabSalary.querySelector('div').classList.add('hidden');
+                tabSalary.querySelector('svg')?.classList.replace('text-military-accent', 'text-slate-400');
+
+                if (mobileTabSalary) {
+                    mobileTabAllowance.className = "flex-1 py-2 text-sm font-bold rounded-lg bg-military-accent text-military-dark transition-colors";
+                    mobileTabSalary.className = "flex-1 py-2 text-sm font-bold rounded-lg text-white hover:bg-white/10 transition-colors";
+                }
+
+                // Update UI texts
+                document.getElementById('printTitle').textContent = 'بيان تفصيلي بفروقات البدلات (25%)';
+                document.getElementById('headerTitle').textContent = 'حاسبة فروقات البدلات';
+                document.getElementById('headerDesc').textContent = 'حساب بدل التدريس أو علاوة الأمن (25%) بناءً على فترات الراتب المدخلة مسبقاً.';
+                document.getElementById('headerBadge').textContent = 'بدلات 25%';
+                document.getElementById('formTitle').textContent = 'إضافة فترة بدل';
+                document.getElementById('formSubtitle').textContent = 'أدخل الفترة فقط وسيتم استخراج الراتب';
+                
+                // Hide salary inputs
+                document.getElementById('salaryInputs').classList.add('hidden');
+                document.getElementById('allowanceInfo').classList.remove('hidden');
+                document.getElementById('oldSalary').required = false;
+                document.getElementById('newSalary').required = false;
+            }
+            
+            hideError();
+            updateUI();
         };
 
         const showError = (msg) => {
@@ -344,6 +467,9 @@
                 tableState.classList.add('hidden');
                 headerActions.classList.add('hidden');
                 emptyState.classList.add('flex');
+                
+                emptyState.querySelector('h3').textContent = 'لا توجد فترات مضافة حتى الآن';
+                emptyState.querySelector('p').textContent = 'قم بإدخال تواريخ البداية والنهاية والرواتب في النموذج الجانبي واضغط على "إضافة للفروقات" لإنشاء الجدول وبدء الحساب.';
             } else {
                 emptyState.classList.add('hidden');
                 emptyState.classList.remove('flex');
@@ -359,6 +485,10 @@
                     const tr = document.createElement('tr');
                     tr.className = 'border-b border-slate-100 print-border-black print:border-2 hover:bg-slate-50/80 print:hover:bg-transparent transition-colors group';
                     
+                    const typeLabel = entry.type === 'allowance' 
+                        ? '<span class="block text-[10px] text-military-accent print-text-black font-bold mt-0.5">بدل 25%</span>' 
+                        : '<span class="block text-[10px] text-slate-400 print-text-black mt-0.5">راتب</span>';
+
                     tr.innerHTML = `
                         <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 text-center text-slate-500 print-text-black print:font-bold">${index + 1}</td>
                         <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 font-semibold text-slate-700 print-text-black text-right" dir="rtl">${entry.startDate}</td>
@@ -366,8 +496,14 @@
                         <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 text-slate-600 print-text-black print:font-bold">
                             ${entry.years}س ${entry.months}ش ${entry.days}ي
                         </td>
-                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 font-medium text-slate-600 print-text-black" dir="ltr">${entry.oldSalary.toFixed(2)}</td>
-                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 font-medium text-slate-600 print-text-black" dir="ltr">${entry.newSalary.toFixed(2)}</td>
+                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 font-medium text-slate-600 print-text-black" dir="ltr">
+                            ${entry.oldSalary.toFixed(2)}
+                            ${typeLabel}
+                        </td>
+                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 font-medium text-slate-600 print-text-black" dir="ltr">
+                            ${entry.newSalary.toFixed(2)}
+                            ${typeLabel}
+                        </td>
                         <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 text-blue-600 print-text-black font-semibold" dir="ltr">${entry.monthlyDiff.toFixed(2)}</td>
                         <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 font-bold text-military-dark print-text-black" dir="ltr">${entry.totalDiff.toFixed(2)}</td>
                         <td class="p-4 print-hidden text-center">
@@ -380,7 +516,7 @@
                 });
 
                 grandTotalEl.textContent = grandTotal.toFixed(2);
-                lucide.createIcons(); // Re-initialize icons for new elements
+                lucide.createIcons();
             }
         };
 
@@ -402,8 +538,6 @@
 
             const startDate = document.getElementById('startDate').value;
             const endDate = document.getElementById('endDate').value;
-            const oldSalary = document.getElementById('oldSalary').value;
-            const newSalary = document.getElementById('newSalary').value;
 
             const d1 = parseDate(startDate);
             const d2 = parseDate(endDate);
@@ -413,12 +547,26 @@
                 return;
             }
 
-            const oldSal = parseFloat(oldSalary);
-            const newSal = parseFloat(newSalary);
+            let oldSal, newSal;
 
-            if (isNaN(oldSal) || isNaN(newSal)) {
-                showError('الرجاء إدخال رواتب صحيحة');
-                return;
+            if (currentMode === 'salary') {
+                oldSal = parseFloat(document.getElementById('oldSalary').value);
+                newSal = parseFloat(document.getElementById('newSalary').value);
+
+                if (isNaN(oldSal) || isNaN(newSal)) {
+                    showError('الرجاء إدخال رواتب صحيحة');
+                    return;
+                }
+            } else {
+                // Allowance mode: find salary from existing entries
+                const foundSalary = findSalaryForPeriod(startDate, endDate);
+                if (!foundSalary) {
+                    showError('لم يتم العثور على راتب لهذه الفترة. الرجاء إضافة الراتب القديم والمستحق في شاشة "فروقات الراتب" أولاً لتغطي هذه الفترة.');
+                    return;
+                }
+                // Calculate 25%
+                oldSal = foundSalary.oldSalary * 0.25;
+                newSal = foundSalary.newSalary * 0.25;
             }
 
             let y1 = d1.year, m1 = d1.month, day1 = d1.day;
@@ -446,6 +594,7 @@
 
             const newEntry = {
                 id: Math.random().toString(36).substr(2, 9),
+                type: currentMode,
                 startDate,
                 endDate,
                 oldSalary: oldSal,
@@ -463,8 +612,10 @@
             // Clear form
             document.getElementById('startDate').value = '';
             document.getElementById('endDate').value = '';
-            document.getElementById('oldSalary').value = '';
-            document.getElementById('newSalary').value = '';
+            if (currentMode === 'salary') {
+                document.getElementById('oldSalary').value = '';
+                document.getElementById('newSalary').value = '';
+            }
             
             updateUI();
         });
