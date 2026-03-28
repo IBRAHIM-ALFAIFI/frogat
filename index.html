@@ -33,12 +33,13 @@
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 1.5cm;
+                margin: 0;
             }
             body {
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
                 background-color: white;
+                padding: 0.5cm;
             }
             .print-hidden {
                 display: none !important;
@@ -250,15 +251,15 @@
                             <table class="w-full text-right border-collapse print-border-black print:border-2">
                                 <thead>
                                     <tr class="bg-slate-50 print:bg-gray-200 border-b border-slate-200 print-border-black print:border-2 text-slate-700 print-text-black">
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold border-l border-slate-200 print-border-black print:border-2 w-12 text-center rounded-tr-2xl print:rounded-none">م</th>
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold border-l border-slate-200 print-border-black print:border-2">من تاريخ</th>
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold border-l border-slate-200 print-border-black print:border-2">إلى تاريخ</th>
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold border-l border-slate-200 print-border-black print:border-2">المدة (س/ش/ي)</th>
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold border-l border-slate-200 print-border-black print:border-2">الراتب القديم</th>
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold border-l border-slate-200 print-border-black print:border-2">الراتب الجديد</th>
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold border-l border-slate-200 print-border-black print:border-2">الفرق الشهري</th>
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold border-l border-slate-200 print-border-black print:border-2">الإجمالي</th>
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold print-hidden w-16 text-center rounded-tl-2xl">إجراء</th>
+                                        <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2 w-12 text-center rounded-tr-2xl print:rounded-none">م</th>
+                                        <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">من تاريخ</th>
+                                        <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">إلى تاريخ</th>
+                                        <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">المدة (س/ش/ي)</th>
+                                        <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">الراتب القديم</th>
+                                        <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">الراتب الجديد</th>
+                                        <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">الفرق الشهري</th>
+                                        <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">الإجمالي</th>
+                                        <th class="p-5 print:p-1 print:text-[11px] font-bold print-hidden w-16 text-center rounded-tl-2xl">إجراء</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">
@@ -269,13 +270,12 @@
 
                         <!-- Grand Total -->
                         <div class="p-8 bg-slate-50 print-bg-transparent print:p-0 print:mt-4 border-t border-slate-100 print:border-none flex justify-end mt-auto">
-                            <div class="bg-gradient-to-br from-military-dark to-gray-900 print-bg-transparent text-white print-text-black p-8 print:p-4 rounded-3xl print:rounded-lg print-border-black print:border-2 min-w-[350px] shadow-2xl shadow-military-dark/20 print-shadow-none relative overflow-hidden">
-                                <div class="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl print-hidden"></div>
-                                <div class="absolute bottom-0 left-0 w-32 h-32 bg-military-accent/20 rounded-full -ml-16 -mb-16 blur-2xl print-hidden"></div>
+                            <div class="bg-transparent border-2 border-black text-black p-6 print:p-3 rounded-2xl min-w-[350px] relative overflow-hidden">
                                 <div class="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center print-flex print:gap-6">
-                                    <div class="text-slate-200 print-text-black mb-1 print:mb-0 print:font-bold text-base sm:text-lg print:text-base">الإجمالي الكلي للفروقات:</div>
-                                    <div class="text-3xl sm:text-5xl print:text-2xl font-bold mt-2 print:mt-0 tracking-tight" dir="ltr">
-                                        <span id="grandTotal">0.00</span> <span class="text-xl sm:text-2xl print:text-sm font-medium text-military-accent print-text-black ml-1">ريال</span>
+                                    <div class="font-bold text-base sm:text-lg print:text-sm">الإجمالي الكلي للفروقات:</div>
+                                    <div class="text-3xl sm:text-4xl print:text-xl font-bold mt-2 print:mt-0 tracking-tight flex items-center gap-2" dir="rtl">
+                                        <span id="grandTotal">0.00</span>
+                                        <span class="text-xl sm:text-2xl print:text-sm font-medium">ريال</span>
                                     </div>
                                 </div>
                             </div>
@@ -360,16 +360,16 @@
                     tr.className = 'border-b border-slate-100 print-border-black print:border-2 hover:bg-slate-50/80 print:hover:bg-transparent transition-colors group';
                     
                     tr.innerHTML = `
-                        <td class="p-5 print:p-1.5 print:text-xs border-l border-slate-100 print-border-black print:border-2 text-center text-slate-500 print-text-black print:font-bold">${index + 1}</td>
-                        <td class="p-5 print:p-1.5 print:text-xs border-l border-slate-100 print-border-black print:border-2 font-semibold text-slate-700 print-text-black" dir="ltr">${entry.startDate}</td>
-                        <td class="p-5 print:p-1.5 print:text-xs border-l border-slate-100 print-border-black print:border-2 font-semibold text-slate-700 print-text-black" dir="ltr">${entry.endDate}</td>
-                        <td class="p-5 print:p-1.5 print:text-xs border-l border-slate-100 print-border-black print:border-2 text-slate-600 print-text-black print:font-bold">
+                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 text-center text-slate-500 print-text-black print:font-bold">${index + 1}</td>
+                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 font-semibold text-slate-700 print-text-black text-right" dir="rtl">${entry.startDate}</td>
+                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 font-semibold text-slate-700 print-text-black text-right" dir="rtl">${entry.endDate}</td>
+                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 text-slate-600 print-text-black print:font-bold">
                             ${entry.years}س ${entry.months}ش ${entry.days}ي
                         </td>
-                        <td class="p-5 print:p-1.5 print:text-xs border-l border-slate-100 print-border-black print:border-2 font-medium text-slate-600 print-text-black" dir="ltr">${entry.oldSalary.toFixed(2)}</td>
-                        <td class="p-5 print:p-1.5 print:text-xs border-l border-slate-100 print-border-black print:border-2 font-medium text-slate-600 print-text-black" dir="ltr">${entry.newSalary.toFixed(2)}</td>
-                        <td class="p-5 print:p-1.5 print:text-xs border-l border-slate-100 print-border-black print:border-2 text-blue-600 print-text-black font-semibold" dir="ltr">${entry.monthlyDiff.toFixed(2)}</td>
-                        <td class="p-5 print:p-1.5 print:text-xs border-l border-slate-100 print-border-black print:border-2 font-bold text-military-dark print-text-black print:text-sm" dir="ltr">${entry.totalDiff.toFixed(2)}</td>
+                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 font-medium text-slate-600 print-text-black" dir="ltr">${entry.oldSalary.toFixed(2)}</td>
+                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 font-medium text-slate-600 print-text-black" dir="ltr">${entry.newSalary.toFixed(2)}</td>
+                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 text-blue-600 print-text-black font-semibold" dir="ltr">${entry.monthlyDiff.toFixed(2)}</td>
+                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 font-bold text-military-dark print-text-black" dir="ltr">${entry.totalDiff.toFixed(2)}</td>
                         <td class="p-4 print-hidden text-center">
                             <button onclick="removeEntry('${entry.id}')" class="p-2.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-300 opacity-0 group-hover:opacity-100 focus:opacity-100" title="حذف">
                                 <i data-lucide="trash-2" class="w-5 h-5 mx-auto"></i>
