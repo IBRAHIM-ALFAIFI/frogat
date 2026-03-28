@@ -88,7 +88,7 @@
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center gap-3">
                 <i data-lucide="calculator" class="w-6 h-6 text-military-accent"></i>
-                <h1 class="font-bold text-lg">مكتب المحاسبة - معهد سلاح المشاة</h1>
+                <h1 class="font-bold text-lg">مكتب المحاسبة - سلاح المشاة</h1>
             </div>
         </div>
         <div class="flex gap-2 bg-white/10 p-1 rounded-xl">
@@ -268,15 +268,15 @@
                             <table class="w-full text-right border-collapse print-border-black print:border-2">
                                 <thead>
                                     <tr class="bg-slate-50 print:bg-gray-200 border-b border-slate-200 print-border-black print:border-2 text-slate-700 print-text-black">
-                                        <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2 w-12 text-center rounded-tr-2xl print:rounded-none">م</th>
-                                        <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">من تاريخ</th>
-                                        <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">إلى تاريخ</th>
-                                        <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">المدة (س/ش/ي)</th>
-                                        <th id="colOldSalary" class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">المبلغ القديم</th>
-                                        <th id="colNewSalary" class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">المبلغ الجديد</th>
-                                        <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">الفرق الشهري</th>
-                                        <th class="p-5 print:p-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border-2">الإجمالي</th>
-                                        <th class="p-5 print:p-1 print:text-[11px] font-bold print-hidden w-16 text-center rounded-tl-2xl">إجراء</th>
+                                        <th class="p-5 print:px-1 print:py-1 print:text-[10px] font-bold border-l border-slate-200 print-border-black print:border-2 w-12 text-center rounded-tr-2xl print:rounded-none">م</th>
+                                        <th class="p-5 print:px-1 print:py-1 print:text-[10px] font-bold border-l border-slate-200 print-border-black print:border-2 print:whitespace-nowrap">من تاريخ</th>
+                                        <th class="p-5 print:px-1 print:py-1 print:text-[10px] font-bold border-l border-slate-200 print-border-black print:border-2 print:whitespace-nowrap">إلى تاريخ</th>
+                                        <th class="p-5 print:px-1 print:py-1 print:text-[10px] font-bold border-l border-slate-200 print-border-black print:border-2 print:whitespace-nowrap">المدة (س/ش/ي)</th>
+                                        <th id="colOldSalary" class="p-5 print:px-1 print:py-1 print:text-[10px] font-bold border-l border-slate-200 print-border-black print:border-2 print:whitespace-nowrap">المبلغ القديم</th>
+                                        <th id="colNewSalary" class="p-5 print:px-1 print:py-1 print:text-[10px] font-bold border-l border-slate-200 print-border-black print:border-2 print:whitespace-nowrap">المبلغ الجديد</th>
+                                        <th class="p-5 print:px-1 print:py-1 print:text-[10px] font-bold border-l border-slate-200 print-border-black print:border-2 print:whitespace-nowrap">الفرق الشهري</th>
+                                        <th class="p-5 print:px-1 print:py-1 print:text-[10px] font-bold border-l border-slate-200 print-border-black print:border-2 print:whitespace-nowrap">الإجمالي</th>
+                                        <th class="p-5 print:px-1 print:py-1 print:text-[10px] font-bold print-hidden w-16 text-center rounded-tl-2xl">إجراء</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">
@@ -486,26 +486,26 @@
                     tr.className = 'border-b border-slate-100 print-border-black print:border-2 hover:bg-slate-50/80 print:hover:bg-transparent transition-colors group';
                     
                     const typeLabel = entry.type === 'allowance' 
-                        ? '<span class="block text-[10px] text-military-accent print-text-black font-bold mt-0.5">بدل 25%</span>' 
-                        : '<span class="block text-[10px] text-slate-400 print-text-black mt-0.5">راتب</span>';
+                        ? '<span class="block text-[10px] print:text-[8px] text-military-accent print-text-black font-bold mt-0.5">بدل 25%</span>' 
+                        : '<span class="block text-[10px] print:text-[8px] text-slate-400 print-text-black mt-0.5">راتب</span>';
 
                     tr.innerHTML = `
-                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 text-center text-slate-500 print-text-black print:font-bold">${index + 1}</td>
-                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 font-semibold text-slate-700 print-text-black text-right" dir="rtl">${entry.startDate}</td>
-                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 font-semibold text-slate-700 print-text-black text-right" dir="rtl">${entry.endDate}</td>
-                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 text-slate-600 print-text-black print:font-bold">
+                        <td class="p-5 print:px-1 print:py-1 print:text-[10px] border-l border-slate-100 print-border-black print:border-2 text-center text-slate-500 print-text-black print:font-bold">${index + 1}</td>
+                        <td class="p-5 print:px-1 print:py-1 print:text-[10px] border-l border-slate-100 print-border-black print:border-2 font-semibold text-slate-700 print-text-black text-right print:whitespace-nowrap" dir="rtl">${entry.startDate}</td>
+                        <td class="p-5 print:px-1 print:py-1 print:text-[10px] border-l border-slate-100 print-border-black print:border-2 font-semibold text-slate-700 print-text-black text-right print:whitespace-nowrap" dir="rtl">${entry.endDate}</td>
+                        <td class="p-5 print:px-1 print:py-1 print:text-[10px] border-l border-slate-100 print-border-black print:border-2 text-slate-600 print-text-black print:font-bold print:whitespace-nowrap">
                             ${entry.years}س ${entry.months}ش ${entry.days}ي
                         </td>
-                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 font-medium text-slate-600 print-text-black" dir="ltr">
+                        <td class="p-5 print:px-1 print:py-1 print:text-[10px] border-l border-slate-100 print-border-black print:border-2 font-medium text-slate-600 print-text-black print:whitespace-nowrap" dir="ltr">
                             ${entry.oldSalary.toFixed(2)}
                             ${typeLabel}
                         </td>
-                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 font-medium text-slate-600 print-text-black" dir="ltr">
+                        <td class="p-5 print:px-1 print:py-1 print:text-[10px] border-l border-slate-100 print-border-black print:border-2 font-medium text-slate-600 print-text-black print:whitespace-nowrap" dir="ltr">
                             ${entry.newSalary.toFixed(2)}
                             ${typeLabel}
                         </td>
-                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 text-blue-600 print-text-black font-semibold" dir="ltr">${entry.monthlyDiff.toFixed(2)}</td>
-                        <td class="p-5 print:p-1 print:text-[11px] border-l border-slate-100 print-border-black print:border-2 font-bold text-military-dark print-text-black" dir="ltr">${entry.totalDiff.toFixed(2)}</td>
+                        <td class="p-5 print:px-1 print:py-1 print:text-[10px] border-l border-slate-100 print-border-black print:border-2 text-blue-600 print-text-black font-semibold print:whitespace-nowrap" dir="ltr">${entry.monthlyDiff.toFixed(2)}</td>
+                        <td class="p-5 print:px-1 print:py-1 print:text-[10px] border-l border-slate-100 print-border-black print:border-2 font-bold text-military-dark print-text-black print:whitespace-nowrap" dir="ltr">${entry.totalDiff.toFixed(2)}</td>
                         <td class="p-4 print-hidden text-center">
                             <button onclick="removeEntry('${entry.id}')" class="p-2.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-300 opacity-0 group-hover:opacity-100 focus:opacity-100" title="حذف">
                                 <i data-lucide="trash-2" class="w-5 h-5 mx-auto"></i>
