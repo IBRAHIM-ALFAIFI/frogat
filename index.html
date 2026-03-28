@@ -30,12 +30,16 @@
             font-family: 'Tajawal', sans-serif;
             background-color: #f8fafc;
         }
+        
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 1.5cm;
+                /* إزالة الهوامش الخاصة بالصفحة لإخفاء الرابط ورقم الصفحة التلقائي من المتصفح */
+                margin: 0 !important; 
             }
             body {
+                /* إعادة الهامش لداخل الصفحة حتى لا يلتصق النص بالحافة */
+                margin: 1.5cm !important; 
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
                 background-color: white;
@@ -63,7 +67,7 @@
             }
         }
         
-        /* Hide print elements on screen */
+        /* إخفاء عناصر الطباعة من الشاشة */
         .screen-hidden {
             display: none;
         }
@@ -76,15 +80,14 @@
             }
         }
     </style>
-<link rel="stylesheet" href="/index.css">
 </head>
 <body class="flex relative overflow-hidden min-h-screen">
     <!-- Decorative background elements -->
     <div class="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-military-dark/5 to-transparent pointer-events-none print-hidden"></div>
     <div class="absolute -top-24 -left-24 w-96 h-96 bg-military-accent/5 rounded-full blur-3xl pointer-events-none print-hidden"></div>
 
-    <!-- Sidebar -->
-    <aside class="w-72 bg-gradient-to-b from-military-dark to-gray-900 text-white min-h-screen flex flex-col fixed right-0 top-0 print-hidden shadow-2xl border-l border-white/5 z-20">
+    <!-- Sidebar (مخفي في الجوال، يظهر في الشاشات الكبيرة) -->
+    <aside class="w-72 bg-gradient-to-b from-military-dark to-gray-900 text-white min-h-screen hidden lg:flex flex-col fixed right-0 top-0 print-hidden shadow-2xl border-l border-white/5 z-20">
         <div class="p-8 border-b border-white/10 text-center relative overflow-hidden">
             <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl"></div>
             <div class="relative z-10">
@@ -100,83 +103,83 @@
             <a href="#" class="flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 group relative overflow-hidden bg-white/10 text-white shadow-lg border border-white/10">
                 <div class="absolute inset-0 bg-gradient-to-r from-military-light/20 to-transparent opacity-50"></div>
                 <i data-lucide="calculator" class="w-6 h-6 relative z-10 transition-transform duration-300 group-hover:scale-110 text-military-accent"></i>
-                <span class="relative z-10 font-medium text-lg">الحاسبة السريعة للفروقات</span>
+                <span class="relative z-10 font-medium text-lg">حاسبة الفروقات</span>
             </a>
         </nav>
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 mr-72 print:mr-0 p-8 lg:p-12 print:p-0 relative z-10 w-full overflow-y-auto h-screen">
+    <main class="flex-1 lg:mr-72 print:mr-0 p-4 sm:p-8 lg:p-12 print:p-0 relative z-10 w-full overflow-y-auto h-screen">
         <div class="max-w-7xl mx-auto print:max-w-none">
             
-            <!-- Print Header -->
-            <div class="screen-hidden mb-6">
-                <div class="flex justify-between items-center border-b-4 border-double border-gray-800 pb-4">
-                    <div class="text-right space-y-1 w-1/3">
-                        <p class="font-bold text-lg">المملكة العربية السعودية</p>
-                        <p class="font-bold text-lg">وزارة الــــــــــــــــــــــــــــــدفـــــــــــــــــــــــاع</p>
-                        <p class="font-bold text-lg">مــــــعــهـــد ســلاح الـــمـــشـــاة</p>
+            <!-- Print Header (تصغير العناصر للطباعة) -->
+            <div class="screen-hidden mb-4">
+                <div class="flex justify-between items-center border-b-2 border-gray-800 pb-2">
+                    <div class="text-right space-y-0.5 w-1/3">
+                        <p class="font-bold text-sm">المملكة العربية السعودية</p>
+                        <p class="font-bold text-sm">وزارة الــــــــــــــــــــــــــــــدفـــــــــــــــــــــــاع</p>
+                        <p class="font-bold text-sm">مــــــعــهـــد ســلاح الـــمـــشـــاة</p>
                     </div>
                     <div class="text-center w-1/3 flex justify-center">
-                        <img src="logo.png" alt="شعار وزارة الدفاع" class="w-24 h-24 object-contain" onerror="this.style.display='none'">
+                        <img src="logo.png" alt="شعار وزارة الدفاع" class="w-16 h-16 object-contain" onerror="this.style.display='none'">
                     </div>
-                    <div class="text-left space-y-2 w-1/3 pt-2 text-base">
+                    <div class="text-left space-y-1 w-1/3 pt-1 text-sm">
                         <div class="flex justify-end gap-2"><span class="font-bold">الرقم:</span> <span>...................</span></div>
                         <div class="flex justify-end gap-2"><span class="font-bold">التاريخ:</span> <span id="printDate"></span></div>
                         <div class="flex justify-end gap-2"><span class="font-bold">المرفقات:</span> <span>.............</span></div>
                     </div>
                 </div>
-                <div class="text-center mt-4 mb-2">
-                    <h2 class="text-2xl font-bold inline-block border-b-2 border-gray-800 pb-1">بيان تفصيلي بفروقات الراتب </h2>
+                <div class="text-center mt-3 mb-2">
+                    <h2 class="text-lg font-bold inline-block border-b-2 border-gray-800 pb-1">بيان تفصيلي بفروقات الراتب </h2>
                 </div>
             </div>
 
-            <!-- Screen Header -->
-            <div class="mb-10 print-hidden flex justify-between items-end bg-white p-8 rounded-3xl shadow-sm border border-slate-100 relative overflow-hidden">
+            <!-- Screen Header (متجاوب مع الجوال) -->
+            <div class="mb-6 lg:mb-10 print-hidden flex flex-col md:flex-row justify-between items-start md:items-end gap-4 bg-white p-6 lg:p-8 rounded-3xl shadow-sm border border-slate-100 relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-2 h-full bg-military-accent"></div>
                 <div class="relative z-10">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-military-light/10 text-military-dark text-sm font-semibold mb-3">
                         <i data-lucide="calculator" class="w-4 h-4"></i>
                         <span>أداة حسابية</span>
                     </div>
-                    <h1 class="text-4xl font-bold text-slate-900 mb-2 tracking-tight">
+                    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 mb-2 tracking-tight">
                         الحاسبة السريعة للفروقات
                     </h1>
-                    <p class="text-slate-500 text-lg max-w-xl">
+                    <p class="text-slate-500 text-sm sm:text-base lg:text-lg max-w-xl">
                         إضافة فترات متعددة وحساب الإجمالي بدقة عالية مع إمكانية طباعة تقرير رسمي معتمد.
                     </p>
                 </div>
-                <div id="headerActions" class="flex gap-4 relative z-10 hidden">
-                    <button onclick="clearAll()" class="px-6 py-3 rounded-2xl text-red-600 bg-red-50 hover:bg-red-100 font-semibold transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
+                <div id="headerActions" class="flex flex-col sm:flex-row w-full md:w-auto gap-3 relative z-10 hidden">
+                    <button onclick="clearAll()" class="w-full sm:w-auto px-6 py-3 rounded-2xl text-red-600 bg-red-50 hover:bg-red-100 font-semibold transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 text-center">
                         مسح الكل
                     </button>
-                    <button onclick="window.print()" class="px-8 py-3 rounded-2xl bg-gradient-to-r from-military-dark to-military-light text-white hover:shadow-lg hover:shadow-military-dark/20 font-semibold flex items-center gap-3 transition-all duration-300 hover:-translate-y-0.5">
+                    <button onclick="window.print()" class="w-full sm:w-auto px-6 lg:px-8 py-3 rounded-2xl bg-gradient-to-r from-military-dark to-military-light text-white hover:shadow-lg hover:shadow-military-dark/20 font-semibold flex items-center justify-center gap-3 transition-all duration-300 hover:-translate-y-0.5">
                         <i data-lucide="printer" class="w-5 h-5"></i>
                         طباعة التقرير
                     </button>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 print:block">
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8 print:block">
                 <!-- Form Section -->
                 <div class="xl:col-span-1 print-hidden">
-                    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-8 sticky top-8">
-                        <div class="flex items-center gap-3 mb-8">
-                            <div class="w-12 h-12 rounded-2xl bg-military-light/10 flex items-center justify-center">
+                    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 lg:p-8 lg:sticky top-8">
+                        <div class="flex items-center gap-3 mb-6 lg:mb-8">
+                            <div class="w-12 h-12 rounded-2xl bg-military-light/10 flex items-center justify-center shrink-0">
                                 <i data-lucide="plus" class="w-6 h-6 text-military-dark"></i>
                             </div>
                             <div>
-                                <h3 class="text-xl font-bold text-slate-800">إضافة فترة جديدة</h3>
-                                <p class="text-sm text-slate-500">أدخل تفاصيل الفترة والراتب</p>
+                                <h3 class="text-lg lg:text-xl font-bold text-slate-800">إضافة فترة جديدة</h3>
+                                <p class="text-xs lg:text-sm text-slate-500">أدخل تفاصيل الفترة والراتب</p>
                             </div>
                         </div>
-                        <form id="calcForm" class="space-y-6">
-                            <div class="space-y-5">
+                        <form id="calcForm" class="space-y-5 lg:space-y-6">
+                            <div class="space-y-4 lg:space-y-5">
                                 <div>
                                     <label class="block text-sm font-semibold text-slate-700 mb-2">من تاريخ (البداية)</label>
                                     <div class="relative group">
                                         <i data-lucide="calendar" class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-military-dark transition-colors"></i>
-                                        <input type="text" id="startDate" required class="w-full pr-12 pl-4 py-3.5 bg-slate-50 rounded-2xl border-2 border-transparent focus:bg-white focus:border-military-light/30 focus:ring-4 focus:ring-military-light/10 outline-none transition-all font-medium text-slate-700" placeholder="مثال: 1440/01/01" dir="ltr">
+                                        <input type="text" id="startDate" required class="w-full pr-12 pl-4 py-3 bg-slate-50 rounded-2xl border-2 border-transparent focus:bg-white focus:border-military-light/30 focus:ring-4 focus:ring-military-light/10 outline-none transition-all font-medium text-slate-700" placeholder="مثال: 1440/01/01" dir="ltr">
                                     </div>
                                 </div>
 
@@ -184,17 +187,17 @@
                                     <label class="block text-sm font-semibold text-slate-700 mb-2">إلى تاريخ (النهاية)</label>
                                     <div class="relative group">
                                         <i data-lucide="calendar" class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-military-dark transition-colors"></i>
-                                        <input type="text" id="endDate" required class="w-full pr-12 pl-4 py-3.5 bg-slate-50 rounded-2xl border-2 border-transparent focus:bg-white focus:border-military-light/30 focus:ring-4 focus:ring-military-light/10 outline-none transition-all font-medium text-slate-700" placeholder="مثال: 1445/01/01" dir="ltr">
+                                        <input type="text" id="endDate" required class="w-full pr-12 pl-4 py-3 bg-slate-50 rounded-2xl border-2 border-transparent focus:bg-white focus:border-military-light/30 focus:ring-4 focus:ring-military-light/10 outline-none transition-all font-medium text-slate-700" placeholder="مثال: 1445/01/01" dir="ltr">
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="pt-6 border-t border-slate-100 space-y-5">
+                            <div class="pt-5 lg:pt-6 border-t border-slate-100 space-y-4 lg:space-y-5">
                                 <div>
                                     <label class="block text-sm font-semibold text-slate-700 mb-2">الراتب القديم</label>
                                     <div class="relative group">
                                         <i data-lucide="dollar-sign" class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-military-dark transition-colors"></i>
-                                        <input type="number" id="oldSalary" required step="0.01" class="w-full pr-12 pl-4 py-3.5 bg-slate-50 rounded-2xl border-2 border-transparent focus:bg-white focus:border-military-light/30 focus:ring-4 focus:ring-military-light/10 outline-none transition-all font-medium text-slate-700" placeholder="0.00" dir="ltr">
+                                        <input type="number" id="oldSalary" required step="0.01" class="w-full pr-12 pl-4 py-3 bg-slate-50 rounded-2xl border-2 border-transparent focus:bg-white focus:border-military-light/30 focus:ring-4 focus:ring-military-light/10 outline-none transition-all font-medium text-slate-700" placeholder="0.00" dir="ltr">
                                     </div>
                                 </div>
 
@@ -202,7 +205,7 @@
                                     <label class="block text-sm font-semibold text-slate-700 mb-2">الراتب الجديد (المستحق)</label>
                                     <div class="relative group">
                                         <i data-lucide="dollar-sign" class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-military-dark transition-colors"></i>
-                                        <input type="number" id="newSalary" required step="0.01" class="w-full pr-12 pl-4 py-3.5 bg-slate-50 rounded-2xl border-2 border-transparent focus:bg-white focus:border-military-light/30 focus:ring-4 focus:ring-military-light/10 outline-none transition-all font-medium text-slate-700" placeholder="0.00" dir="ltr">
+                                        <input type="number" id="newSalary" required step="0.01" class="w-full pr-12 pl-4 py-3 bg-slate-50 rounded-2xl border-2 border-transparent focus:bg-white focus:border-military-light/30 focus:ring-4 focus:ring-military-light/10 outline-none transition-all font-medium text-slate-700" placeholder="0.00" dir="ltr">
                                     </div>
                                 </div>
                             </div>
@@ -212,8 +215,8 @@
                                 <span id="errorText"></span>
                             </div>
 
-                            <button type="submit" class="w-full bg-military-dark hover:bg-military-light text-white py-4 rounded-2xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-3 shadow-lg shadow-military-dark/20 hover:shadow-xl hover:-translate-y-0.5">
-                                <i data-lucide="plus" class="w-6 h-6"></i>
+                            <button type="submit" class="w-full bg-military-dark hover:bg-military-light text-white py-3.5 lg:py-4 rounded-2xl font-bold text-base lg:text-lg transition-all duration-300 flex items-center justify-center gap-3 shadow-lg shadow-military-dark/20 hover:shadow-xl hover:-translate-y-0.5">
+                                <i data-lucide="plus" class="w-5 h-5 lg:w-6 lg:h-6"></i>
                                 إضافة للفروقات
                             </button>
                         </form>
@@ -224,34 +227,34 @@
                 <div class="xl:col-span-2 print:w-full">
                     
                     <!-- Empty State -->
-                    <div id="emptyState" class="bg-white rounded-3xl border border-slate-100 shadow-sm h-full min-h-[500px] flex flex-col items-center justify-center text-slate-400 p-12 text-center print-hidden relative overflow-hidden">
+                    <div id="emptyState" class="bg-white rounded-3xl border border-slate-100 shadow-sm h-full min-h-[300px] lg:min-h-[500px] flex flex-col items-center justify-center text-slate-400 p-8 lg:p-12 text-center print-hidden relative overflow-hidden">
                         <div class="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] opacity-30"></div>
                         <div class="relative z-10 flex flex-col items-center">
-                            <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6 shadow-inner border border-slate-100">
-                                <i data-lucide="file-text" class="w-10 h-10 text-slate-300"></i>
+                            <div class="w-20 h-20 lg:w-24 lg:h-24 bg-slate-50 rounded-full flex items-center justify-center mb-4 lg:mb-6 shadow-inner border border-slate-100">
+                                <i data-lucide="file-text" class="w-8 h-8 lg:w-10 lg:h-10 text-slate-300"></i>
                             </div>
-                            <h3 class="text-2xl font-bold text-slate-700 mb-3">لا توجد فترات مضافة حتى الآن</h3>
-                            <p class="max-w-md text-slate-500 text-lg leading-relaxed">
-                                قم بإدخال تواريخ البداية والنهاية والرواتب في النموذج الجانبي واضغط على "إضافة للفروقات" لإنشاء الجدول وبدء الحساب.
+                            <h3 class="text-xl lg:text-2xl font-bold text-slate-700 mb-2 lg:mb-3">لا توجد فترات مضافة حتى الآن</h3>
+                            <p class="max-w-md text-slate-500 text-sm lg:text-lg leading-relaxed">
+                                قم بإدخال تواريخ البداية والنهاية والرواتب في النموذج واضغط على "إضافة للفروقات" لإنشاء الجدول.
                             </p>
                         </div>
                     </div>
 
                     <!-- Table State -->
                     <div id="tableState" class="hidden bg-white rounded-3xl shadow-sm border border-slate-100 print:border-none print:shadow-none overflow-hidden flex flex-col h-full">
-                        <div class="overflow-x-auto flex-1 p-2">
-                            <table class="w-full text-right border-collapse print-border-black print:border-2">
+                        <div class="overflow-x-auto w-full flex-1 p-2">
+                            <table class="w-full min-w-[700px] print:min-w-0 text-right border-collapse print-border-black print:border">
                                 <thead>
-                                    <tr class="bg-slate-50 print:bg-gray-200 border-b border-slate-200 print-border-black print:border-2 text-slate-700 print-text-black">
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold border-l border-slate-200 print-border-black print:border-2 w-12 text-center rounded-tr-2xl print:rounded-none">م</th>
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold border-l border-slate-200 print-border-black print:border-2">من تاريخ</th>
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold border-l border-slate-200 print-border-black print:border-2">إلى تاريخ</th>
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold border-l border-slate-200 print-border-black print:border-2">المدة (س/ش/ي)</th>
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold border-l border-slate-200 print-border-black print:border-2">الراتب القديم</th>
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold border-l border-slate-200 print-border-black print:border-2">الراتب الجديد</th>
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold border-l border-slate-200 print-border-black print:border-2">الفرق الشهري</th>
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold border-l border-slate-200 print-border-black print:border-2">الإجمالي</th>
-                                        <th class="p-5 print:p-1.5 print:text-xs font-bold print-hidden w-16 text-center rounded-tl-2xl">إجراء</th>
+                                    <tr class="bg-slate-50 print:bg-gray-200 border-b border-slate-200 print-border-black print:border text-slate-700 print-text-black">
+                                        <th class="p-4 print:px-1 print:py-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border w-12 text-center rounded-tr-2xl print:rounded-none">م</th>
+                                        <th class="p-4 print:px-1 print:py-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border">من تاريخ</th>
+                                        <th class="p-4 print:px-1 print:py-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border">إلى تاريخ</th>
+                                        <th class="p-4 print:px-1 print:py-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border">المدة (س/ش/ي)</th>
+                                        <th class="p-4 print:px-1 print:py-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border">الراتب القديم</th>
+                                        <th class="p-4 print:px-1 print:py-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border">الراتب الجديد</th>
+                                        <th class="p-4 print:px-1 print:py-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border">الفرق الشهري</th>
+                                        <th class="p-4 print:px-1 print:py-1 print:text-[11px] font-bold border-l border-slate-200 print-border-black print:border">الإجمالي</th>
+                                        <th class="p-4 print:px-1 print:py-1 print:text-[11px] font-bold print-hidden w-16 text-center rounded-tl-2xl">إجراء</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">
@@ -261,34 +264,30 @@
                         </div>
 
                         <!-- Grand Total -->
-                        <div class="p-8 print:p-0 print:mt-4 flex justify-end mt-auto">
-                            <div class="bg-transparent text-black p-8 print:p-4 rounded-3xl print:rounded-lg border-2 border-black min-w-[350px] shadow-none relative overflow-hidden">
-                                
-                                <div class="relative z-10 flex justify-between items-center print:flex print:gap-6">
-                                    <div class="text-black mb-1 print:mb-0 font-bold text-lg print:text-base">
-                                        الإجمالي الكلي للفروقات:
-                                    </div>
-
-                                    <div class="text-5xl print:text-2xl font-bold mt-2 print:mt-0 tracking-tight flex items-center gap-2" dir="ltr">
-                                        <span id="grandTotal">0.00</span>
-                                        <span class="text-2xl print:text-sm font-medium text-black">
-                                            ريال
-                                        </span>
+                        <div class="p-4 sm:p-6 lg:p-8 bg-slate-50 print-bg-transparent print:p-0 print:mt-4 border-t border-slate-100 print:border-none flex flex-col sm:flex-row sm:justify-end mt-auto">
+                            <div class="bg-gradient-to-br from-military-dark to-gray-900 print-bg-transparent text-white print-text-black p-6 lg:p-8 print:p-2 rounded-3xl print:rounded-none print-border-black print:border w-full sm:min-w-[350px] shadow-2xl shadow-military-dark/20 print-shadow-none relative overflow-hidden">
+                                <div class="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl print-hidden"></div>
+                                <div class="absolute bottom-0 left-0 w-32 h-32 bg-military-accent/20 rounded-full -ml-16 -mb-16 blur-2xl print-hidden"></div>
+                                <div class="relative z-10 flex justify-between items-center print-flex print:gap-4">
+                                    <div class="text-slate-200 print-text-black mb-1 print:mb-0 print:font-bold text-base lg:text-lg print:text-[12px]">الإجمالي الكلي:</div>
+                                    <div class="text-3xl sm:text-4xl lg:text-5xl print:text-lg font-bold mt-2 sm:mt-0 tracking-tight" dir="ltr">
+                                        <span id="grandTotal">0.00</span> <span class="text-lg sm:text-xl lg:text-2xl print:text-[11px] font-medium text-military-accent print-text-black ml-1">ريال</span>
                                     </div>
                                 </div>
                             </div>
-                        </div>                    
-                        <!-- Print Signatures -->
-                        <div class="screen-hidden flex justify-between mt-6 px-12 text-center">
+                        </div>
+
+                        <!-- Print Signatures (تصغير الخط للطباعة) -->
+                        <div class="screen-hidden flex justify-between mt-6 px-8 text-center">
                             <div class="w-1/3">
-                                <p class="font-bold text-lg mb-8">المحاسب</p>
-                                <p class="text-gray-800 text-base">الاسم: حسن عبده الزبيدي</p>
-                                <p class="text-gray-800 text-base mt-2">التوقيع: ..........................</p>
+                                <p class="font-bold text-sm mb-6">المحاسب</p>
+                                <p class="text-gray-800 text-[12px]">الاسم: حسن عبده الزبيدي</p>
+                                <p class="text-gray-800 text-[12px] mt-1">التوقيع: ..........................</p>
                             </div>
                             <div class="w-1/3">
-                                <p class="font-bold text-lg mb-8">المدقق</p>
-                                <p class="text-gray-800 text-base">الاسم: ........................</p>
-                                <p class="text-gray-800 text-base mt-2">التوقيع: ........................</p>
+                                <p class="font-bold text-sm mb-6">المدقق</p>
+                                <p class="text-gray-800 text-[12px]">الاسم: ........................</p>
+                                <p class="text-gray-800 text-[12px] mt-1">التوقيع: ........................</p>
                             </div>
                         </div>
                     </div>
@@ -304,7 +303,7 @@
         // Set print date
         document.getElementById('printDate').textContent = new Date().toLocaleDateString('en-GB');
 
-        let entries = [];
+        let entries =[];
 
         const parseDate = (dateStr) => {
             const parts = dateStr.split(/[-/]/).map(Number);
@@ -354,21 +353,21 @@
                     grandTotal += entry.totalDiff;
                     
                     const tr = document.createElement('tr');
-                    tr.className = 'border-b border-slate-100 print-border-black print:border-2 hover:bg-slate-50/80 print:hover:bg-transparent transition-colors group';
+                    tr.className = 'border-b border-slate-100 print-border-black print:border hover:bg-slate-50/80 print:hover:bg-transparent transition-colors group';
                     
                     tr.innerHTML = `
-                        <td class="p-5 print:p-1.5 print:text-xs border-l border-slate-100 print-border-black print:border-2 text-center text-slate-500 print-text-black print:font-bold">${index + 1}</td>
-                        <td class="p-5 print:p-1.5 print:text-xs border-l border-slate-100 print-border-black print:border-2 font-semibold text-slate-700 print-text-black" dir="ltr">${entry.startDate}</td>
-                        <td class="p-5 print:p-1.5 print:text-xs border-l border-slate-100 print-border-black print:border-2 font-semibold text-slate-700 print-text-black" dir="ltr">${entry.endDate}</td>
-                        <td class="p-5 print:p-1.5 print:text-xs border-l border-slate-100 print-border-black print:border-2 text-slate-600 print-text-black print:font-bold">
+                        <td class="p-4 print:px-1 print:py-1 print:text-[11px] border-l border-slate-100 print-border-black print:border text-center text-slate-500 print-text-black print:font-bold">${index + 1}</td>
+                        <td class="p-4 print:px-1 print:py-1 print:text-[11px] border-l border-slate-100 print-border-black print:border font-semibold text-slate-700 print-text-black" dir="ltr">${entry.startDate}</td>
+                        <td class="p-4 print:px-1 print:py-1 print:text-[11px] border-l border-slate-100 print-border-black print:border font-semibold text-slate-700 print-text-black" dir="ltr">${entry.endDate}</td>
+                        <td class="p-4 print:px-1 print:py-1 print:text-[11px] border-l border-slate-100 print-border-black print:border text-slate-600 print-text-black print:font-bold">
                             ${entry.years}س ${entry.months}ش ${entry.days}ي
                         </td>
-                        <td class="p-5 print:p-1.5 print:text-xs border-l border-slate-100 print-border-black print:border-2 font-medium text-slate-600 print-text-black" dir="ltr">${entry.oldSalary.toFixed(2)}</td>
-                        <td class="p-5 print:p-1.5 print:text-xs border-l border-slate-100 print-border-black print:border-2 font-medium text-slate-600 print-text-black" dir="ltr">${entry.newSalary.toFixed(2)}</td>
-                        <td class="p-5 print:p-1.5 print:text-xs border-l border-slate-100 print-border-black print:border-2 text-blue-600 print-text-black font-semibold" dir="ltr">${entry.monthlyDiff.toFixed(2)}</td>
-                        <td class="p-5 print:p-1.5 print:text-xs border-l border-slate-100 print-border-black print:border-2 font-bold text-military-dark print-text-black print:text-sm" dir="ltr">${entry.totalDiff.toFixed(2)}</td>
-                        <td class="p-4 print-hidden text-center">
-                            <button onclick="removeEntry('${entry.id}')" class="p-2.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-300 opacity-0 group-hover:opacity-100 focus:opacity-100" title="حذف">
+                        <td class="p-4 print:px-1 print:py-1 print:text-[11px] border-l border-slate-100 print-border-black print:border font-medium text-slate-600 print-text-black" dir="ltr">${entry.oldSalary.toFixed(2)}</td>
+                        <td class="p-4 print:px-1 print:py-1 print:text-[11px] border-l border-slate-100 print-border-black print:border font-medium text-slate-600 print-text-black" dir="ltr">${entry.newSalary.toFixed(2)}</td>
+                        <td class="p-4 print:px-1 print:py-1 print:text-[11px] border-l border-slate-100 print-border-black print:border text-blue-600 print-text-black font-semibold" dir="ltr">${entry.monthlyDiff.toFixed(2)}</td>
+                        <td class="p-4 print:px-1 print:py-1 print:text-[11px] border-l border-slate-100 print-border-black print:border font-bold text-military-dark print-text-black print:text-[12px]" dir="ltr">${entry.totalDiff.toFixed(2)}</td>
+                        <td class="p-3 print-hidden text-center">
+                            <button onclick="removeEntry('${entry.id}')" class="p-2.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-300 opacity-100 lg:opacity-0 group-hover:opacity-100 focus:opacity-100" title="حذف">
                                 <i data-lucide="trash-2" class="w-5 h-5 mx-auto"></i>
                             </button>
                         </td>
@@ -388,87 +387,4 @@
 
         window.clearAll = () => {
             if (confirm('هل أنت متأكد من مسح جميع الفترات؟')) {
-                entries = [];
-                updateUI();
-            }
-        };
-
-        document.getElementById('calcForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            hideError();
-
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-            const oldSalary = document.getElementById('oldSalary').value;
-            const newSalary = document.getElementById('newSalary').value;
-
-            const d1 = parseDate(startDate);
-            const d2 = parseDate(endDate);
-
-            if (!d1 || !d2) {
-                showError('صيغة التاريخ غير صحيحة. الرجاء استخدام صيغة YYYY/MM/DD');
-                return;
-            }
-
-            const oldSal = parseFloat(oldSalary);
-            const newSal = parseFloat(newSalary);
-
-            if (isNaN(oldSal) || isNaN(newSal)) {
-                showError('الرجاء إدخال رواتب صحيحة');
-                return;
-            }
-
-            let y1 = d1.year, m1 = d1.month, day1 = d1.day;
-            let y2 = d2.year, m2 = d2.month, day2 = d2.day;
-
-            if (day1 === 31) day1 = 30;
-            if (day2 === 31) day2 = 30;
-
-            let totalDays = (y2 - y1) * 360 + (m2 - m1) * 30 + (day2 - day1);
-            totalDays += 1;
-
-            if (totalDays < 0) {
-                showError('تاريخ النهاية يجب أن يكون بعد تاريخ البداية');
-                return;
-            }
-
-            const years = Math.floor(totalDays / 360);
-            const remainingAfterYears = totalDays % 360;
-            const months = Math.floor(remainingAfterYears / 30);
-            const days = remainingAfterYears % 30;
-
-            const monthlyDiff = newSal - oldSal;
-            const dailyDiff = monthlyDiff / 30;
-            const totalDiff = totalDays * dailyDiff;
-
-            const newEntry = {
-                id: Math.random().toString(36).substr(2, 9),
-                startDate,
-                endDate,
-                oldSalary: oldSal,
-                newSalary: newSal,
-                years,
-                months,
-                days,
-                totalDays,
-                monthlyDiff,
-                totalDiff
-            };
-
-            entries.push(newEntry);
-            
-            // Clear form
-            document.getElementById('startDate').value = '';
-            document.getElementById('endDate').value = '';
-            document.getElementById('oldSalary').value = '';
-            document.getElementById('newSalary').value = '';
-            
-            updateUI();
-        });
-
-        // Initial UI setup
-        updateUI();
-    </script>
-<script type="module" src="/index.tsx"></script>
-</body>
-</html>
+                entries =
