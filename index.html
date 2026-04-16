@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نظام حساب فروقات الرواتب الذكي</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --primary: #1e293b;
+      --secondary: #64748b;
+      --accent: #0f766e;
+      --bg: #f1f5f9;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+      --text-main: #0f172a;
+      --f-sans: "Cairo", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      --f-mono: 'Courier New', Courier, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+    }
+
+    body {
+      font-family: var(--f-sans);
+      background-color: var(--bg);
+      color: var(--text-main);
+      margin: 0;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .app-header {
+      background: var(--primary);
+      color: white;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .app-header h1 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .main-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 16px;
+      padding: 16px;
+      flex: 1;
+      height: calc(100% - 50px);
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+    }
+
+    .content-area {
+      background: var(--card-bg);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      padding: 16px;
+    }
+
+    .section-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--secondary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.75rem;
+      margin-bottom: 4px;
+      color: var(--secondary);
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-family: var(--f-mono);
+      outline: none;
+    }
+    input:focus {
+      border-color: var(--accent);
+    }
+
+    .btn {
+      cursor: pointer;
+      padding: 10px 16px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      width: 100%;
+    }
+    .btn-primary:hover {
+      background: #0d645d;
+    }
+
+    .btn-secondary {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      color: var(--primary);
+    }
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    .promotion-list {
+      max-height: 350px;
+      overflow-y: auto;
+      border: 1px dashed var(--border);
+      border-radius: 4px;
+      padding: 8px;
+    }
+
+    .promo-item {
+      display: grid;
+      grid-template-columns: 1fr 100px 30px;
+      gap: 8px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+
+    .table-viewport {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 1px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    th {
+      background: #f8fafc;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      text-align: right;
+      padding: 12px 8px;
+      border-bottom: 2px solid var(--border);
+      color: var(--secondary);
+      font-weight: 600;
+    }
+
+    td {
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mono {
+      font-family: var(--f-mono);
+      letter-spacing: -0.5px;
+    }
+
+    .total-bar {
+      background: #f1f5f9;
+      padding: 16px 24px;
+      border-top: 2px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .grand-total {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .print-header {
+      display: none;
+    }
+
+    .signatures {
+      display: none; /* Hidden on screen */
+    }
+
+    .badge-fixed {
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.65rem;
+      margin-right: 4px;
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 1.5cm;
+      }
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        background-color: white;
+      }
+      .sidebar, .app-header, .no-print {
+        display: none !important;
+      }
+      .main-layout {
+        display: block;
+        padding: 0;
+        width: 100%;
+        height: auto;
+        overflow: visible;
+      }
+      .content-area {
+        border: none;
+        box-shadow: none;
+        display: block;
+      }
+      .table-viewport {
+        overflow: visible;
+      }
+      .print-header {
+        display: block !important;
+        margin-bottom: 24px;
+      }
+      table {
+        border: 2px solid black !important;
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th {
+        background-color: #e5e7eb !important;
+        color: black !important;
+        border: 2px solid black !important;
+        padding: 8px !important;
+        font-size: 0.85rem;
+      }
+      td {
+        border: 2px solid black !important;
+        color: black !important;
+        padding: 8px !important;
+        font-size: 0.85rem;
+      }
+      .total-bar {
+        background: transparent !important;
+        border: 2px solid black !important;
+        border-radius: 8px !important;
+        margin-top: 16px;
+        padding: 16px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+      }
+      .total-bar * {
+        color: black !important;
+      }
+      .signatures {
+        display: flex !important;
+        justify-content: space-between;
+        margin-top: 40px;
+        padding: 0 40px;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="h-full w-full flex flex-col">
+    <header class="app-header">
+      <div style="display: flex; align-items: center; gap: 12px;">
+	<div style="width: 44px; height: 44px; border-radius: 5px; overflow: hidden; display: grid; place-items: center; background: var(--accent);">
+	  <img src="logo.png" alt="logo" style="width: 100%; height: 100%; object-fit: contain;">
+		</div>
+        <h1>نظام حساب فروقات تعديل الدرجة للأفراد</h1>
+      </div>
+      <div class="no-print">
+        <button class="btn btn-secondary" style="padding: 6px 12px;" onclick="window.print()">
+          <i data-lucide="printer" style="width: 16px; height: 16px;"></i>
+          طباعة التقرير
+        </button>
+      </div>
+    </header>
+
+    <main class="main-layout">
+      <!-- Inputs Sidebar -->
+      <div class="sidebar no-print">
+        <div class="card">
+          <div class="section-title">البيانات الأساسية</div>
+          <div class="form-group">
+            <label>تاريخ التعيين (YYYY-MM-DD)</label>
+            <input type="text" id="startDate" dir="ltr" placeholder="YYYY-MM-DD" value="" />
+          </div>
+          <div class="form-group">
+            <label>تاريخ نهاية الفترة (YYYY-MM-DD)</label>
+            <input type="text" id="endDate" dir="ltr" placeholder="YYYY-MM-DD" value="" />
+          </div>
+        </div>
+
+        <div class="card" style="flex: 1; display: flex; flex-direction: column;">
+          <div class="section-title">
+            <span>الترقيات والعلاوات</span>
+            <button class="btn btn-secondary" style="padding: 2px 8px; font-size: 0.65rem; margin-right: auto;" onclick="addPromotion()">
+              <i data-lucide="plus" style="width: 12px; height: 12px;"></i> إضافة
+            </button>
+          </div>
+          <div class="promotion-list" id="promotionList">
+            <!-- Promotions will be injected here -->
+          </div>
+          <div style="margin-top: auto; padding-top: 16px;">
+            <button class="btn btn-primary" onclick="calculate()">
+              <i data-lucide="calculator" style="width: 16px; height: 16px;"></i>
+              احسب تلقائياً
+            </button>
+          </div>
+        </div>
+<span style="color: #0f766e; font-weight: 600;">
+تم تصميم هذا الموقع لتسهيل حساب فروقات تعديل الدرجة للأفراد مما يسهم في سرعة الإنتاجية للعمل وقلة الأخطاء
+</span>
+<span style="color: #2563eb; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+  📞 للتواصل: 0538604938
+</span>
+    
+  </div>
+
+      <!-- Results Area -->
+      <div class="content-area">
+        <!-- Print Header (Hidden on screen) -->
+        <div class="print-header">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 4px double #1f2937; padding-bottom: 16px;">
+                <div style="text-align: right; line-height: 1.5; width: 33.333%;">
+                    <p style="font-weight: 700; font-size: 1.125rem; margin: 0;">المملكة العربية السعودية</p>
+                    <p style="font-weight: 700; font-size: 1.125rem; margin: 0;">وزارة الـــــــــــــدفــــــــــــاع</p>
+                    <p style="font-weight: 700; font-size: 1.125rem; margin: 0;">مــــعــهــد سـلاح الـمـشـاة</p>
+                </div>
+                <div style="text-align: center; width: 33.333%; display: flex; justify-content: center;">
+                    <img src="logo.png" alt="شعار وزارة الدفاع" style="width: 160px; height: 160px; object-fit: contain;" onerror="this.style.display='none'">
+                </div>
+                <div style="text-align: left; line-height: 1.5; width: 33.333%; padding-top: 8px; font-size: 1rem;">
+                    <div style="display: flex; justify-content: flex-end; gap: 8px;"><span style="font-weight: 700;">الرقم:</span> <span>..........................</span></div>
+                    <div style="display: flex; justify-content: flex-end; gap: 8px;"><span style="font-weight: 700;">التاريخ:</span> <span id="printDate"></span></div>
+                    <div style="display: flex; justify-content: flex-end; gap: 8px;"><span style="font-weight: 700;">المرفقات:</span> <span>..................</span></div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 16px; margin-bottom: 8px;">
+                <h2 style="font-size: 1.5rem; font-weight: 700; display: inline-block; border-bottom: 2px solid #1f2937; padding-bottom: 4px; margin: 0;">بيان تفصيلي بفروقات الراتب</h2>
+            </div>
+        </div>
+
+        <div style="padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;" class="no-print">
+          <span style="font-weight: 700;">جدول الفترات الزمنية والفروقات المستحقة</span>
+          <span style="font-size: 0.75rem; color: var(--secondary);">نظام 360 يوم</span>
+        </div>
+        
+        <div class="table-viewport">
+          <table>
+            <thead>
+              <tr>
+                <th width="40">#</th>
+                <th>من تاريخ</th>
+                <th>إلى تاريخ</th>
+                <th>الأيام</th>
+                <th>س / ش / ي</th>
+                <th>العلاوة</th>
+                <th style="text-align: left;">إجمالي الفترة</th>
+              </tr>
+            </thead>
+            <tbody id="resultsBody">
+              <!-- Results will be injected here -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="total-bar">
+          <div>
+            <span style="color: var(--secondary); font-size: 0.85rem;">إجمالي عدد الأيام المحسوبة:</span>
+            <span class="mono" style="font-weight: 700; margin-right: 8px;" id="totalDays">0 يوم</span>
+          </div>
+          <div>
+            <span style="color: var(--secondary); font-size: 0.85rem; margin-left: 12px;">الإجمالي النهائي للفروقات:</span>
+            <span class="grand-total mono" id="grandTotal">0.00 ريال</span>
+          </div>
+        </div>
+        <div class="signatures">
+            <div style="width: 33.333%; text-align: center;">
+                <p style="font-weight: 700; font-size: 1.125rem; margin-bottom: 32px;">المحاسب</p>
+                <p style="color: #1f2937; font-size: 1rem; margin: 0;">الاسم: حسن عبده الزبيدي</p>
+                <p style="color: #1f2937; font-size: 1rem; margin-top: 8px;">التوقيع: ..........................</p>
+            </div>
+            <div style="width: 33.333%; text-align: center;">
+                <p style="font-weight: 700; font-size: 1.125rem; margin-bottom: 32px;">المدقق</p>
+                <p style="color: #1f2937; font-size: 1rem; margin: 0;">الاسم: ........................</p>
+                <p style="color: #1f2937; font-size: 1rem; margin-top: 8px;">التوقيع: ........................</p>
+            </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Initialize Icons
+    lucide.createIcons();
+
+    const FIXED_DATES = [
+      { date: '1426-09-01', label: 'ثابت' },
+      { date: '1431-11-01', label: 'ثابت' },
+      { date: '1432-06-28', label: 'ثابت' },
+      { date: '2016-10-02', label: 'ثابت' },
+    ];
+
+    let promotions = [
+      { id: 1, date: '""', allowance: 0 },
+    ];
+
+    function subtractOneDay(dateStr) {
+      let [y, m, d] = dateStr.split('-').map(Number);
+      d -= 1;
+      if (d === 0) {
+        d = 30;
+        m -= 1;
+        if (m === 0) {
+          m = 12;
+          y -= 1;
+        }
+      }
+      return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    }
+
+    function get360Days(d1, d2) {
+      const [y1, m1, day1] = d1.split('-').map(Number);
+      const [y2, m2, day2] = d2.split('-').map(Number);
+      
+      let d1_adj = day1;
+      let d2_adj = day2;
+      
+      if (d1_adj === 31) d1_adj = 30;
+      if (d2_adj === 31 && d1_adj === 30) d2_adj = 30;
+      
+      return (y2 - y1) * 360 + (m2 - m1) * 30 + (d2_adj - d1_adj) + 1;
+    }
+
+    function formatCurrency(num) {
+      return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function renderPromotions() {
+      const list = document.getElementById('promotionList');
+      list.innerHTML = '';
+      promotions.forEach(promo => {
+        const div = document.createElement('div');
+        div.className = 'promo-item';
+        div.innerHTML = `
+          <input type="text" dir="ltr" placeholder="YYYY-MM-DD" value="${promo.date}" onchange="updatePromotion(${promo.id}, 'date', this.value)" />
+          <input type="number" value="${promo.allowance || ''}" onchange="updatePromotion(${promo.id}, 'allowance', Number(this.value))" placeholder="العلاوة" />
+          <button onclick="removePromotion(${promo.id})" style="color: #ef4444; background: none; border: none; cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center;">
+            <i data-lucide="trash-2" style="width: 16px; height: 16px;"></i>
+          </button>
+        `;
+        list.appendChild(div);
+      });
+      lucide.createIcons();
+    }
+
+    function addPromotion() {
+      promotions.push({ id: Date.now(), date: '', allowance: 0 });
+      renderPromotions();
+    }
+
+    function updatePromotion(id, field, value) {
+      const promo = promotions.find(p => p.id === id);
+      if (promo) {
+        promo[field] = value;
+      }
+    }
+
+    function removePromotion(id) {
+      promotions = promotions.filter(p => p.id !== id);
+      renderPromotions();
+    }
+
+    function calculate() {
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+      
+      if (!startDate || !endDate) return;
+
+      const starts = new Set();
+      starts.add(startDate);
+
+      promotions.forEach(p => {
+        if (p.date && p.date > startDate && p.date <= endDate) {
+          starts.add(p.date);
+        }
+      });
+
+      FIXED_DATES.forEach(f => {
+        if (f.date > startDate && f.date <= endDate) {
+          starts.add(f.date);
+        }
+      });
+
+      const sortedStarts = Array.from(starts).sort();
+      
+      const resultsBody = document.getElementById('resultsBody');
+      resultsBody.innerHTML = '';
+      
+      let tDays = 0;
+      let gTotal = 0;
+
+      if (sortedStarts.length === 0) {
+        resultsBody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 32px; color: var(--secondary);">الرجاء إدخال التواريخ والترقيات لحساب الفروقات</td></tr>`;
+        document.getElementById('totalDays').innerText = '0 يوم';
+        document.getElementById('grandTotal').innerText = '0.00 ريال';
+        return;
+      }
+
+      for (let i = 0; i < sortedStarts.length; i++) {
+        const start = sortedStarts[i];
+        let end;
+        if (i < sortedStarts.length - 1) {
+          if (sortedStarts[i + 1] === '2016-10-02') {
+            end = '1437-12-30';
+          } else {
+            end = subtractOneDay(sortedStarts[i + 1]);
+          }
+        } else {
+          end = endDate;
+        }
+
+let activeAllowance = 0;
+
+// 1) نجيب آخر علاوة قبل التاريخ
+const validPromos = promotions
+  .filter(p => p.date && p.date <= start)
+  .sort((a, b) => a.date.localeCompare(b.date));
+
+if (validPromos.length > 0) {
+  activeAllowance = validPromos[validPromos.length - 1].allowance;
+} else {
+  activeAllowance = promotions[0]?.allowance || 0;
+}
+
+// 2) نجيب أقرب "تعديل نظامي" بعده (وليس فقط نفس التاريخ)
+const sortedMaps = Object.keys(adjustAllowanceByDateMap)
+  .sort();
+
+// 3) نطبق كل التحويلات التي حصلت قبل أو عند هذا التاريخ
+for (const key of sortedMaps) {
+  if (key <= start) {
+    activeAllowance = adjustAllowanceByDate(key, activeAllowance);
+  }
+}
+        const nextStart = (i < sortedStarts.length - 1) ? sortedStarts[i + 1] : null;
+        const isNextFixed = nextStart ? FIXED_DATES.find(f => f.date === nextStart) : null;
+
+        const days = get360Days(start, end);
+	// تعديل العلاوة عند أول تاريخ ثابت
+        const dailyRate = activeAllowance / 30;
+        const total = days * dailyRate;
+
+        const y = Math.floor(days / 360);
+        const m = Math.floor((days % 360) / 30);
+        const d = days % 30;
+
+        tDays += days;
+        gTotal += total;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i + 1}</td>
+          <td class="mono">${start}</td>
+          <td class="mono">
+            ${end}
+          </td>
+          <td class="mono">${days.toLocaleString()}</td>
+          <td>${y} / ${m} / ${d}</td>
+          <td class="mono">${formatCurrency(activeAllowance)}</td>
+          <td class="mono" style="text-align: left;">${formatCurrency(total)}</td>
+        `;
+        resultsBody.appendChild(tr);
+      }
+
+      document.getElementById('totalDays').innerText = `${tDays.toLocaleString()} يوم`;
+      document.getElementById('grandTotal').innerText = `${formatCurrency(gTotal)} ريال`;
+    }
+
+    // Set print date
+    document.getElementById('printDate').textContent = new Date().toLocaleDateString('en-GB');
+
+    // Initial render
+    renderPromotions();
+const adjustAllowanceByDateMap = {
+  '1426-09-01': {
+    93: 110,
+    105: 125,
+    127: 150,
+    154: 180,
+    185: 215,
+    223: 260,
+    267: 340
+  },
+
+  '1431-11-01': {},
+
+  '1432-06-28': {
+    110: 130,
+    125: 145,
+    150: 175,
+    180: 210,
+    215: 250,
+    260: 300,
+    310: 360
+  }
+};
+
+function adjustAllowanceByDate(date, allowance) {
+  const maps = adjustAllowanceByDateMap;
+
+  if (!maps[date]) return allowance;
+
+  return maps[date][allowance] ?? allowance;
+}
+ calculate();
+  </script>
+</body>
+</html>
