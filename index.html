@@ -312,7 +312,23 @@
         page-break-inside: avoid;
       }
     }
-  </style>
+  
+
+/* Responsive */
+@media (max-width:768px){
+body{height:auto;overflow:auto;}
+.main-layout{grid-template-columns:1fr;height:auto;padding:10px;}
+.app-header{flex-direction:column;gap:10px;padding:12px}
+.app-header h1{font-size:1rem;text-align:center}
+.sidebar,.content-area{width:100%}
+.table-viewport{overflow:auto;-webkit-overflow-scrolling:touch}
+table{min-width:700px}
+.total-bar{flex-direction:column;gap:10px;align-items:flex-start;padding:12px}
+.promo-item{grid-template-columns:1fr}
+.btn{width:100%}
+}
+
+</style>
 </head>
 <body>
 
