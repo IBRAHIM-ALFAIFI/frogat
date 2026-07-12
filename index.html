@@ -239,95 +239,9 @@
       padding: 2px 6px;
       border-radius: 4px;
       font-size: 0.65rem;
-      margin-right: 4px;
-    }
-/* ===========================
-   Responsive Report (Mobile)
-   =========================== */
-@media (max-width:768px){
-
-  .content-area{
-    width:100%;
-    border-radius:8px;
-    overflow:hidden;
+      margin-right: 
   }
 
-  /* رأس التقرير */
-  .print-header{
-    display:block;
-    padding:15px;
-  }
-
-  .print-header > div:first-child{
-    display:flex !important;
-    flex-direction:column;
-    align-items:center;
-    text-align:center;
-    gap:15px;
-  }
-
-  .print-header img{
-    width:90px !important;
-    height:90px !important;
-  }
-
-  .print-header h2{
-    font-size:1.1rem !important;
-  }
-
-  .print-header p,
-  .print-header span{
-    font-size:.85rem !important;
-  }
-
-  /* عنوان الجدول */
-  .content-area > div:nth-child(2){
-    flex-direction:column;
-    gap:8px;
-    align-items:flex-start !important;
-  }
-
-  /* الجدول */
-  .table-viewport{
-    overflow-x:auto;
-    -webkit-overflow-scrolling:touch;
-  }
-
-  table{
-    min-width:760px;
-  }
-
-  th,
-  td{
-    white-space:nowrap;
-    font-size:13px;
-  }
-
-  /* الإجمالي */
-  .total-bar{
-    flex-direction:column;
-    align-items:flex-start;
-    gap:10px;
-  }
-
-  .grand-total{
-    font-size:1.1rem;
-  }
-
-  /* التواقيع */
-  .signatures{
-    display:flex;
-    flex-direction:column;
-    gap:25px;
-    padding:20px 15px;
-  }
-
-  .signatures>div{
-    width:100% !important;
-    text-align:center;
-  }
-
-}
     @media print {
       @page {
         size: A4 portrait;
