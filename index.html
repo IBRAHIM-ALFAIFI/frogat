@@ -436,24 +436,49 @@ table{min-width:700px}
 
         <div class="total-bar">
           <div>
-            <span style="color: var(--secondary); font-size: 0.85rem;">إجمالي عدد الأيام المحسوبة:</span>
-            <span class="mono" style="font-weight: 700; margin-right: 8px;" id="totalDays">0 يوم</span>
-          </div>
-          <div>
-            <span style="color: var(--secondary); font-size: 0.85rem; margin-left: 12px;">الإجمالي النهائي للفروقات:</span>
+            <span style="color: var(--secondary); font-size: 0.85rem; margin-left: 12px;">الإجمالي النهائي لفرق الراتب بدون بدلات أو علاوات :</span>
             <span class="grand-total mono" id="grandTotal">0.00 ريال</span>
+
           </div>
+	</div>
+<div class="print-only">
+
+    <div style="text-align: center; margin-top: 16px; margin-bottom: 8px;">
+        <h2 style="font-size: 0.9rem; font-weight: 700; margin: 0;">
+            في حال وجود فرق علاوة بسبب تعديل الدرجة يتم تسجيلها أدناه يدوياً مع المبلغ المستحق ⬇️
+        </h2>
+    </div>
+        <div class="total-bar">
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+
+        <div style="text-align:right;">
+            <span style="color: var(--secondary); font-size:0.9rem;">
+                فرق علاوة / ................. : (.................) ريال
+            </span>
         </div>
-        <div class="signatures">
-            <div style="width: 33.333%; text-align: center;">
+        </div>
+
+        <div style="text-align:left;">
+            <span style="color: var(--secondary); font-size:0.9rem;">
+                فرق علاوة / ................. : (.................) ريال
+            </span>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="signatures"> 
+       <div style="width: 33.333%; text-align: center;">
                 <p style="font-weight: 700; font-size: 1.125rem; margin-bottom: 32px;">المحاسب</p>
-                <p style="color: #1f2937; font-size: 1rem; margin: 0;">الاسم: ..........................</p>
-                <p style="color: #1f2937; font-size: 1rem; margin-top: 8px;">التوقيع: ..........................</p>
+                <p style="color: #1f2937; font-size: 1rem; margin: 0;">الاسم: ....................................</</p>
+                <p style="color: #1f2937; font-size: 1rem; margin-top: 8px;">التوقيع: ....................................</</p>
             </div>
             <div style="width: 33.333%; text-align: center;">
                 <p style="font-weight: 700; font-size: 1.125rem; margin-bottom: 32px;">المدقق</p>
-                <p style="color: #1f2937; font-size: 1rem; margin: 0;">الاسم: ........................</p>
-                <p style="color: #1f2937; font-size: 1rem; margin-top: 8px;">التوقيع: ........................</p>
+                <p style="color: #1f2937; font-size: 1rem; margin: 0;">الاسم: ....................................</</p>
+                <p style="color: #1f2937; font-size: 1rem; margin-top: 8px;">التوقيع: ....................................</</p>
             </div>
         </div>
       </div>
