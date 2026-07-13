@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>نظام حساب فروقات الرواتب الذكي</title>
   
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
@@ -241,19 +239,64 @@
       font-size: 0.65rem;
       margin-right: 4px;
     }
-.print-only {
-    display: none !important;
-}
 
-    @media print {
-.print-only {
-        display: block !important;
-        visibility: visible !important;
+    .print-only {
+        display: none !important;
     }
 
-    .no-print{
-        display:none !important;
-}  
+    /* التنسيقات الخاصة بالجوال والشاشات الصغيرة */
+    @media (max-width: 768px) {
+      body {
+        height: auto;
+        overflow: auto;
+      }
+      .main-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+        padding: 10px;
+      }
+      .app-header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px;
+      }
+      .app-header h1 {
+        font-size: 1rem;
+        text-align: center;
+      }
+      .sidebar, .content-area {
+        width: 100%;
+      }
+      .table-viewport {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      table {
+        min-width: 650px; /* لضمان عدم انضغاط الجدول في الشاشات الصغيرة وتسهيل التصفح الأفقي للبيانات */
+      }
+      .total-bar {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+        padding: 12px;
+      }
+      .promo-item {
+        grid-template-columns: 1fr 80px 30px;
+      }
+      .btn {
+        width: 100%;
+      }
+    }
+
+    @media print {
+      .print-only {
+        display: block !important;
+        visibility: visible !important;
+      }
+
+      .no-print {
+        display: none !important;
+      }  
       @page {
         size: A4 portrait;
         margin: 1.5cm;
@@ -311,6 +354,7 @@
         padding: 16px !important;
         display: flex !important;
         justify-content: space-between !important;
+        flex-direction: row !important; /* يحافظ على الترتيب الأفقي عند الطباعة حتى لو طبعت من جوال */
       }
       .total-bar * {
         color: black !important;
@@ -318,37 +362,21 @@
       .signatures {
         display: flex !important;
         justify-content: space-between;
-        margin-top: 10px;
+        margin-top: 30px;
         padding: 0 10px;
         page-break-inside: avoid;
       }
     }
-  
-
-/* Responsive */
-@media (max-width:768px){
-body{height:auto;overflow:auto;}
-.main-layout{grid-template-columns:1fr;height:auto;padding:10px;}
-.app-header{flex-direction:column;gap:10px;padding:12px}
-.app-header h1{font-size:1rem;text-align:center}
-.sidebar,.content-area{width:100%}
-.table-viewport{overflow:auto;-webkit-overflow-scrolling:touch}
-table{min-width:700px}
-.total-bar{flex-direction:column;gap:10px;align-items:flex-start;padding:12px}
-.promo-item{grid-template-columns:1fr}
-.btn{width:100%}
-}
-
-</style>
+  </style>
 </head>
 <body>
 
   <div class="h-full w-full flex flex-col">
     <header class="app-header">
       <div style="display: flex; align-items: center; gap: 12px;">
-	<div style="width: 44px; height: 44px; border-radius: 5px; overflow: hidden; display: grid; place-items: center; background: var(--accent);">
-	  <img src="logo.png" alt="logo" style="width: 100%; height: 100%; object-fit: contain;">
-		</div>
+        <div style="width: 44px; height: 44px; border-radius: 5px; overflow: hidden; display: grid; place-items: center; background: var(--accent);">
+          <img src="logo.png" alt="logo" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
         <h1>نظام حساب فروقات تعديل الدرجة للأفراد</h1>
       </div>
       <div class="no-print">
@@ -360,7 +388,6 @@ table{min-width:700px}
     </header>
 
     <main class="main-layout">
-      <!-- Inputs Sidebar -->
       <div class="sidebar no-print">
         <div class="card">
           <div class="section-title">البيانات الأساسية</div>
@@ -382,8 +409,7 @@ table{min-width:700px}
             </button>
           </div>
           <div class="promotion-list" id="promotionList">
-            <!-- Promotions will be injected here -->
-          </div>
+            </div>
           <div style="margin-top: auto; padding-top: 16px;">
             <button class="btn btn-primary" onclick="calculate()">
               <i data-lucide="calculator" style="width: 16px; height: 16px;"></i>
@@ -391,15 +417,12 @@ table{min-width:700px}
             </button>
           </div>
         </div>
-<span style="color: #0f766e; font-weight: 600;">
-تم تصميم هذا الموقع لتسهيل حساب فروقات تعديل الدرجة للأفراد مما يسهم في سرعة الإنتاجية للعمل وقلة الأخطاء
-</span>
-    
-  </div>
+        <span style="color: #0f766e; font-weight: 600; font-size: 0.85rem; text-align: center; display: block; margin-top: 8px;">
+          تم تصميم هذا الموقع لتسهيل حساب فروقات تعديل الدرجة للأفراد مما يسهم في سرعة الإنتاجية للعمل وقلة الأخطاء
+        </span>
+      </div>
 
-      <!-- Results Area -->
       <div class="content-area">
-        <!-- Print Header (Hidden on screen) -->
         <div class="print-header">
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 4px double #1f2937; padding-bottom: 16px;">
                 <div style="text-align: right; line-height: 1.5; width: 33.333%;">
@@ -417,7 +440,7 @@ table{min-width:700px}
                 </div>
             </div>
             <div style="text-align: center; margin-top: 16px; margin-bottom: 8px;">
-                <h2 style="font-size: 1.5rem; font-weight: 700; display: inline-block; border-bottom: 2px solid #1f2937; padding-bottom: 4px; margin: 0;">بيان تفصيلي بفروقات الراتب</h2>
+                <h2 style="font-size: 1.1rem; font-weight: 700; display: inline-block; border-bottom: 2px solid #1f2937; padding-bottom: 4px; margin: 0;">بيان تفصيلي بفروقات تعديل الدرجة</h2>
             </div>
         </div>
 
@@ -440,56 +463,47 @@ table{min-width:700px}
               </tr>
             </thead>
             <tbody id="resultsBody">
-              <!-- Results will be injected here -->
-            </tbody>
+              </tbody>
           </table>
         </div>
 
         <div class="total-bar">
           <div>
-            <span style="color: var(--secondary); font-size: 0.85rem; margin-left: 12px;">الإجمالي النهائي لفرق الراتب بدون بدلات أو علاوات :</span>
+            <span style="color: var(--secondary); font-size: 0.85rem; margin-left: 12px;">العنصر المستهدف: الإجمالي النهائي لفرق الراتب بدون بدلات أو علاوات:</span>
             <span class="grand-total mono" id="grandTotal">0.00 ريال</span>
-
           </div>
-	</div>
-<div class="print-only">
-
-    <div style="text-align: center; margin-top: 16px; margin-bottom: 8px;">
-        <h2 style="font-size: 0.9rem; font-weight: 700; margin: 0;">
-            في حال وجود فرق علاوة بسبب تعديل الدرجة يتم تسجيلها أدناه يدوياً مع المبلغ المستحق ⬇️
-        </h2>
-    </div>
-        <div class="total-bar">
-
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-
-        <div style="text-align:right;">
-            <span style="color: var(--secondary); font-size:0.9rem;">
-                فرق علاوة / ................. : (.................) ريال
-            </span>
-        </div>
         </div>
 
-        <div style="text-align:left;">
-            <span style="color: var(--secondary); font-size:0.9rem;">
-                فرق علاوة / ................. : (.................) ريال
-            </span>
-        </div>
-
-    </div>
-
-</div>
-
-<div class="signatures"> 
-       <div style="width: 33.333%; text-align: center;">
-                <p style="font-weight: 700; font-size: 1.125rem; margin-bottom: 32px;">المحاسب</p>
-                <p style="color: #1f2937; font-size: 1rem; margin: 0;">الاسم: ....................................</</p>
-                <p style="color: #1f2937; font-size: 1rem; margin-top: 8px;">التوقيع: ....................................</</p>
+        <div class="print-only">
+            <div style="text-align: center; margin-top: 16px; margin-bottom: 8px;">
+                <h2 style="font-size: 0.9rem; font-weight: 700; margin: 0;">
+                    في حال وجود فرق علاوة بسبب تعديل الدرجة يتم تسجيلها أدناه يدوياً مع المبلغ المستحق ⬇️
+                </h2>
             </div>
-            <div style="width: 33.333%; text-align: center;">
+            <div class="total-bar" style="display: flex; justify-content: space-between; border: 2px solid black; padding: 10px; border-radius: 8px;">
+                <div style="text-align: right; width: 48%;">
+                    <span style="color: black; font-size: 0.9rem;">
+                        فرق علاوة / ................. : (.................) ريال
+                    </span>
+                </div>
+                <div style="text-align: left; width: 48%;">
+                    <span style="color: black; font-size: 0.9rem;">
+                        فرق علاوة / ................. : (.................) ريال
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="signatures"> 
+            <div style="width: 45%; text-align: center;">
+                <p style="font-weight: 700; font-size: 1.125rem; margin-bottom: 32px;">المحاسب</p>
+                <p style="color: #1f2937; font-size: 1rem; margin: 0;">الاسم: ....................................</p>
+                <p style="color: #1f2937; font-size: 1rem; margin-top: 8px;">التوقيع: ....................................</p>
+            </div>
+            <div style="width: 45%; text-align: center;">
                 <p style="font-weight: 700; font-size: 1.125rem; margin-bottom: 32px;">المدقق</p>
-                <p style="color: #1f2937; font-size: 1rem; margin: 0;">الاسم: ....................................</</p>
-                <p style="color: #1f2937; font-size: 1rem; margin-top: 8px;">التوقيع: ....................................</</p>
+                <p style="color: #1f2937; font-size: 1rem; margin: 0;">الاسم: ....................................</p>
+                <p style="color: #1f2937; font-size: 1rem; margin-top: 8px;">التوقيع: ....................................</p>
             </div>
         </div>
       </div>
@@ -508,7 +522,7 @@ table{min-width:700px}
     ];
 
     let promotions = [
-      { id: 1, date: '""', allowance: 0 },
+      { id: 1, date: '', allowance: 0 },
     ];
 
     function subtractOneDay(dateStr) {
@@ -608,7 +622,6 @@ table{min-width:700px}
 
       if (sortedStarts.length === 0) {
         resultsBody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 32px; color: var(--secondary);">الرجاء إدخال التواريخ والترقيات لحساب الفروقات</td></tr>`;
-        document.getElementById('totalDays').innerText = '0 يوم';
         document.getElementById('grandTotal').innerText = '0.00 ريال';
         return;
       }
@@ -626,34 +639,29 @@ table{min-width:700px}
           end = endDate;
         }
 
-let activeAllowance = 0;
+        let activeAllowance = 0;
 
-// 1) نجيب آخر علاوة قبل التاريخ
-const validPromos = promotions
-  .filter(p => p.date && p.date <= start)
-  .sort((a, b) => a.date.localeCompare(b.date));
+        // 1) نجيب آخر علاوة قبل التاريخ
+        const validPromos = promotions
+          .filter(p => p.date && p.date <= start)
+          .sort((a, b) => a.date.localeCompare(b.date));
 
-if (validPromos.length > 0) {
-  activeAllowance = validPromos[validPromos.length - 1].allowance;
-} else {
-  activeAllowance = promotions[0]?.allowance || 0;
-}
+        if (validPromos.length > 0) {
+          activeAllowance = validPromos[validPromos.length - 1].allowance;
+        } else {
+          activeAllowance = promotions[0]?.allowance || 0;
+        }
 
-// 2) نجيب أقرب "تعديل نظامي" بعده (وليس فقط نفس التاريخ)
-const sortedMaps = Object.keys(adjustAllowanceByDateMap)
-  .sort();
+        // 2) نطبق التحويلات النظامية
+        const sortedMaps = Object.keys(adjustAllowanceByDateMap).sort();
 
-// 3) نطبق كل التحويلات التي حصلت قبل أو عند هذا التاريخ
-for (const key of sortedMaps) {
-  if (key <= start) {
-    activeAllowance = adjustAllowanceByDate(key, activeAllowance);
-  }
-}
-        const nextStart = (i < sortedStarts.length - 1) ? sortedStarts[i + 1] : null;
-        const isNextFixed = nextStart ? FIXED_DATES.find(f => f.date === nextStart) : null;
+        for (const key of sortedMaps) {
+          if (key <= start) {
+            activeAllowance = adjustAllowanceByDate(key, activeAllowance);
+          }
+        }
 
         const days = get360Days(start, end);
-	// تعديل العلاوة عند أول تاريخ ثابت
         const dailyRate = activeAllowance / 30;
         const total = days * dailyRate;
 
@@ -668,9 +676,7 @@ for (const key of sortedMaps) {
         tr.innerHTML = `
           <td>${i + 1}</td>
           <td class="mono">${start}</td>
-          <td class="mono">
-            ${end}
-          </td>
+          <td class="mono">${end}</td>
           <td class="mono">${days.toLocaleString()}</td>
           <td>${y} / ${m} / ${d}</td>
           <td class="mono">${formatCurrency(activeAllowance)}</td>
@@ -679,7 +685,6 @@ for (const key of sortedMaps) {
         resultsBody.appendChild(tr);
       }
 
-      document.getElementById('totalDays').innerText = `${tDays.toLocaleString()} يوم`;
       document.getElementById('grandTotal').innerText = `${formatCurrency(gTotal)} ريال`;
     }
 
@@ -688,38 +693,36 @@ for (const key of sortedMaps) {
 
     // Initial render
     renderPromotions();
-const adjustAllowanceByDateMap = {
-  '1426-09-01': {
-    93: 110,
-    105: 125,
-    127: 150,
-    154: 180,
-    185: 215,
-    223: 260,
-    267: 340
-  },
 
-  '1431-11-01': {},
+    const adjustAllowanceByDateMap = {
+      '1426-09-01': {
+        93: 110,
+        105: 125,
+        127: 150,
+        154: 180,
+        185: 215,
+        223: 260,
+        267: 340
+      },
+      '1431-11-01': {},
+      '1432-06-28': {
+        110: 130,
+        125: 145,
+        150: 175,
+        180: 210,
+        215: 250,
+        260: 300,
+        310: 360
+      }
+    };
 
-  '1432-06-28': {
-    110: 130,
-    125: 145,
-    150: 175,
-    180: 210,
-    215: 250,
-    260: 300,
-    310: 360
-  }
-};
+    function adjustAllowanceByDate(date, allowance) {
+      const maps = adjustAllowanceByDateMap;
+      if (!maps[date]) return allowance;
+      return maps[date][allowance] ?? allowance;
+    }
 
-function adjustAllowanceByDate(date, allowance) {
-  const maps = adjustAllowanceByDateMap;
-
-  if (!maps[date]) return allowance;
-
-  return maps[date][allowance] ?? allowance;
-}
- calculate();
+    calculate();
   </script>
 </body>
 </html>
